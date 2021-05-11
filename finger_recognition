@@ -11,9 +11,22 @@ import os
 import mediapipe as mp
 from google.colab.patches import cv2_imshow
 import math
+import time
 
 
-img = cv2.imread('/content/drive/MyDrive/task/images (1).jfif')
+#img = cv2.imread('/content/drive/MyDrive/task/images (1).jfif')
+
+
+
+
+
+# 영상의 경우
+
+
+
+
+
+
 
 #print(type(imgcap))
 
@@ -29,46 +42,63 @@ class Point:
     self.x = x
     self.y = y
 
+def finger_recog(video_path):
 
-#img = cap.read()
-imgRGB = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
-result = hands.process(imgRGB)
-#print(result.multi_hand_landmarks)
+  vidcap = cv2.VideoCapture(video_path)
+  success, image = vidcap.read()
 
-if result.multi_hand_landmarks:
-  for handLms in result.multi_hand_landmarks:
-    hands_draw.draw_landmarks(img, handLms, hands_cap.HAND_CONNECTIONS)
+  status = "stop"
+  start_time = time.time()
 
-    for id, lm in enumerate(handLms.landmark):
-      h, w, c = img.shape
-      cx, cy = int(lm.x*w), int(lm.y*h)
-      #print(id, " :", cx, cy)
+  #img = cap.read()
+  imgRGB = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+  result = hands.process(imgRGB)
+  #print(result.multi_hand_landmarks)
 
+  if result.multi_hand_landmarks:
+    for handLms in result.multi_hand_landmarks:
+      hands_draw.draw_landmarks(img, handLms, hands_cap.HAND_CONNECTIONS)
 
-      if id ==0:
-        wrist = Point(int(lm.x*w),int(lm.y*h))
-
-      if id == 4:
-        thumbs_tip = Point(int(lm.x*w),int(lm.y*h))
-
-      if id == 12:
-        middle_finger_tip = Point(int(lm.x*w),int(lm.y*h))
-
-  #print((thumbs_tip.x - wrist.x)**2)
-  #print((thumbs_tip.y - wrist.y)**2)
-  thumb_size = math.sqrt((thumbs_tip.x - wrist.x)**2 + (thumbs_tip.y - wrist.y)**2)
-  mid_finger_size = math.sqrt((middle_finger_tip.x - wrist.x)**2 + (middle_finger_tip.y - wrist.y)**2)
-  #print(thumb_size)
-  #print(mid_finger_size)
-
-  if mid_finger_size < thumb_size:
-    print("start")
-
-  else:
-    print("stop")
+      for id, lm in enumerate(handLms.landmark):
+        h, w, c = img.shape
+        cx, cy = int(lm.x*w), int(lm.y*h)
+        #print(id, " :", cx, cy)
 
 
+        if id ==0:
+          wrist = Point(int(lm.x*w),int(lm.y*h))
 
-cv2_imshow(img)
+        if id == 4:
+          thumbs_tip = Point(int(lm.x*w),int(lm.y*h))
 
+        if id == 12:
+          middle_finger_tip = Point(int(lm.x*w),int(lm.y*h))
+
+    #print((thumbs_tip.x - wrist.x)**2)
+    #print((thumbs_tip.y - wrist.y)**2)
+    thumb_size = math.sqrt((thumbs_tip.x - wrist.x)**2 + (thumbs_tip.y - wrist.y)**2)
+    mid_finger_size = math.sqrt((middle_finger_tip.x - wrist.x)**2 + (middle_finger_tip.y - wrist.y)**2)
+    #print(thumb_size)
+    #print(mid_finger_size)
+
+    if mid_finger_size < thumb_size:
+      tmp = "start"
+      print("start")
+    
+    else:
+      tmp = "stop"
+      print("stop")
+
+
+    if status != tmp:
+      status = tmp
+      print("반응 속도 : ",time.time()-start_time)
+      
+
+   
+
+
+
+#cv2_imshow(img)
+finger_recog('/content/drive/MyDrive/task/images (1).jfif')
 
