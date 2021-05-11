@@ -8,7 +8,7 @@
 
 손바닥을 핀 멈춰 동작 : stop
 
-산업 현장에서 오직 카메라만을 이용해 각종 건설차량, 기계장치의 start 와 stop 제어 
+산업 현장에서 오직 카메라만을 이용해 위급 상황에서 신속하게 각종 건설차량, 기계장치의 start 와 stop 제어 
 
 
 코랩 링크 : https://colab.research.google.com/drive/1qeX1JPvPo2x09bFIjNJPOz093lJZbUWX#scrollTo=bDOHzszJXRey
