@@ -1,0 +1,74 @@
+!pip install mediapipe
+
+!pip install opencv-python
+
+from google.colab import drive
+drive.mount('/content/drive')
+
+import cv2
+import numpy as np
+import os
+import mediapipe as mp
+from google.colab.patches import cv2_imshow
+import math
+
+
+img = cv2.imread('/content/drive/MyDrive/task/images (1).jfif')
+
+#print(type(imgcap))
+
+
+hands_cap = mp.solutions.hands
+hands = hands_cap.Hands()
+hands_draw = mp.solutions.drawing_utils
+
+
+
+class Point:
+  def __init__(self,x,y):
+    self.x = x
+    self.y = y
+
+
+#img = cap.read()
+imgRGB = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+result = hands.process(imgRGB)
+#print(result.multi_hand_landmarks)
+
+if result.multi_hand_landmarks:
+  for handLms in result.multi_hand_landmarks:
+    hands_draw.draw_landmarks(img, handLms, hands_cap.HAND_CONNECTIONS)
+
+    for id, lm in enumerate(handLms.landmark):
+      h, w, c = img.shape
+      cx, cy = int(lm.x*w), int(lm.y*h)
+      #print(id, " :", cx, cy)
+
+
+      if id ==0:
+        wrist = Point(int(lm.x*w),int(lm.y*h))
+
+      if id == 4:
+        thumbs_tip = Point(int(lm.x*w),int(lm.y*h))
+
+      if id == 12:
+        middle_finger_tip = Point(int(lm.x*w),int(lm.y*h))
+
+  #print((thumbs_tip.x - wrist.x)**2)
+  #print((thumbs_tip.y - wrist.y)**2)
+  thumb_size = math.sqrt((thumbs_tip.x - wrist.x)**2 + (thumbs_tip.y - wrist.y)**2)
+  mid_finger_size = math.sqrt((middle_finger_tip.x - wrist.x)**2 + (middle_finger_tip.y - wrist.y)**2)
+  #print(thumb_size)
+  #print(mid_finger_size)
+
+  if mid_finger_size < thumb_size:
+    print("start")
+
+  else:
+    print("stop")
+
+
+
+cv2_imshow(img)
+
+
