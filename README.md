@@ -12,3 +12,5 @@ Start/Stop Control Using Finger Gesture in Industrial Site
 
 
 코랩 링크 : https://colab.research.google.com/drive/1qeX1JPvPo2x09bFIjNJPOz093lJZbUWX#scrollTo=bDOHzszJXRey
+
+구동 영상 (코드 설명) : https://www.youtube.com/watch?v=NVXih5kw86A 
