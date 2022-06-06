@@ -1,5 +1,5 @@
-# mdpipe_chajigi
-차지기 전반부 최종과제(미디어파이프).py
+# Start_Stop_Control
+Start/Stop Control Using Finger Gesture in Industrial Site
 
 미디어파이프를 이용한 손가락 제스처 인식 코드 (따봉, 손바닥 - 멈춰 를 구분해 start와 stop을 제어한다)
 
